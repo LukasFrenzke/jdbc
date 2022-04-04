@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -65,6 +66,14 @@ public class Database {
             System.out.println(showResult.getString(1) + " " + showResult.getString(2) + " " + showResult.getString(3));
         }
 
+        System.out.println("_______________________________________");
+        System.out.println("Table with datatypes: ");
+        ResultSet resultWithType = statement.executeQuery("select * from persons");
+        ResultSetMetaData rsmd = resultWithType.getMetaData();
+        while(resultWithType.next()){
+            System.out.println("\n" + resultWithType.getString(1) + " Datatype is: " + rsmd.getColumnTypeName(1) +"\n"+ resultWithType.getString(2) + " Datatype is: " + rsmd.getColumnTypeName(2)+ "\n"  + resultWithType.getString(3) + " Datatype is: " + rsmd.getColumnTypeName(3) );
+        }
+
         resultSet.close();
         showResult.close();
         resultAfterChange.close();
@@ -74,5 +83,6 @@ public class Database {
         preparedStatement.close();
         deleteStatement.close();
         changeStatement.close();
+        resultWithType.close();
     }
 }
